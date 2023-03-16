@@ -6,6 +6,7 @@ import Tickerdropdown from "./sidebar/Tickerdropdown";
 import Nav_bar from "./searchbar/Nav_bar";
 import { Col, Container, Row } from "react-bootstrap";
 import Content_nev from "./content/Content_nev";
+import TabsExample from "./content/TabsExample";
 
 function App() {
   function fetchData() {
