@@ -4,6 +4,8 @@ from tickers import tickers
 from moving import *
 from goldenCrossTicker import *
 from chart import *
+import json
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -34,16 +36,12 @@ def chart():
     stock = yf.Ticker(ticker)
 
     # Get the historical data for the last 200 days
-    historical_data = stock.history(period="200d")
+    historical_data = stock.history(period="10d")
 
+    historical_data.index.name = "Date"
     # Select the last 200 rows of data for the date and last price
-    last_200 = historical_data.tail(200)[["Date", "Close"]]
+    last_200 = historical_data.tail(200)["Close"]
 
-    # Extract only the date from the Date column
-    last_200["Date"] = last_200["Date"].dt.date
+    json_str = last_200.to_json()
 
-    # Convert the DataFrame to a JSON object
-    json_data = last_200.to_json(orient="records")
-
-    # Return the JSON object as a response
-    return jsonify(json_data)
+    return jsonify(json_str)
